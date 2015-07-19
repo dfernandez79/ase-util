@@ -1,0 +1,23 @@
+{
+  "name": "ase-decode",
+  "version": "0.0.1",
+  "description": "Reads and writes the Adobe Swatch Exchange (ASE) file format",
+  "main": "index.js",
+  "devDependencies": {
+    "mocha": "^2.2.5"
+  },
+  "scripts": {
+    "test": "mocha",
+    "test:watch": "mocha -w"
+  },
+  "keywords": [
+    "ase",
+    "colors",
+    "decode"
+  ],
+  "author": "Diego Fernandez <diegof79@gmail.com> (https://github.com/dfernandez79)",
+  "license": "MIT",
+  "dependencies": {
+    "iconv-lite": "^0.4.11"
+  }
+}
