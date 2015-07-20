@@ -3,6 +3,27 @@ ASE Util
 
 Utility library to handle Adobe Swatch Exchange (ASE) files.
 
+```
+npm install ase-util
+```
+
+The package provides JavaScript functions and command line tools.
+
+
+Command line tools
+------------------
+
+### asedump
+
+Dumps the colors and groups of an .ase file as JSON.
+
+Usage: `asedump [--pretty] [--hex] filename.ase`
+
+Options:
+  * `--pretty` Pretty print the output
+  * `--hex` Adds HTML hex color values to RGB and Gray colors
+
+
 API
 ---
 
