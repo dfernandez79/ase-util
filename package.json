@@ -25,5 +25,9 @@
   "dependencies": {
     "iconv-lite": "^0.4.11",
     "yargs": "^3.15.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/dfernandez79/ase-util.git"
   }
 }
