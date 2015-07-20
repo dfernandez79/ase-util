@@ -1,14 +1,14 @@
-var decode = require('../');
+var read = require('../lib').read;
 var assert = require('assert');
 var fs = require('fs');
 var path = require('path');
 
-describe('decode', function () {
+describe('read', function () {
 
   it('receives a Buffer', function () {
     assert.throws(
       function () {
-        decode('a string');
+        read('a string');
       },
       TypeError,
       'The argument is not an instance of Buffer'
@@ -17,7 +17,7 @@ describe('decode', function () {
 
   it('reads a file with only one color', function () {
     var buffer = fs.readFileSync(path.resolve(__dirname, 'one-color.ase'));
-    var result = decode(buffer);
+    var result = read(buffer);
     assert(result.length === 1);
     assert(result[0].type === 'color');
     assert(result[0].name === 'Red');
@@ -29,7 +29,7 @@ describe('decode', function () {
 
   it('reads a file with multiple colors', function () {
     var buffer = fs.readFileSync(path.resolve(__dirname, 'three-colors.ase'));
-    var result = decode(buffer);
+    var result = read(buffer);
     assert(result.length === 3);
 
     assert(result[0].type === 'color');
@@ -56,7 +56,7 @@ describe('decode', function () {
 
   it('reads a file with a group', function () {
     var buffer = fs.readFileSync(path.resolve(__dirname, 'one-group.ase'));
-    var result = decode(buffer);
+    var result = read(buffer);
 
     assert(result.length === 1);
 
@@ -73,7 +73,7 @@ describe('decode', function () {
 
   it('supports CMYK colors', function () {
     var buffer = fs.readFileSync(path.resolve(__dirname, 'cmyk-color.ase'));
-    var result = decode(buffer);
+    var result = read(buffer);
     assert(result.length === 1);
     assert(result[0].type === 'color');
     assert(result[0].name === 'Cyan');
@@ -86,7 +86,7 @@ describe('decode', function () {
 
   it('supports Lab colors', function () {
     var buffer = fs.readFileSync(path.resolve(__dirname, 'lab-color.ase'));
-    var result = decode(buffer);
+    var result = read(buffer);
     assert(result.length === 1);
     assert(result[0].type === 'color');
     assert(result[0].name === 'Test');
@@ -98,7 +98,7 @@ describe('decode', function () {
 
   it('supports Gray colors', function () {
     var buffer = fs.readFileSync(path.resolve(__dirname, 'gray-color.ase'));
-    var result = decode(buffer);
+    var result = read(buffer);
     assert(result.length === 1);
     assert(result[0].type === 'color');
     assert(result[0].name === 'Gray');
@@ -108,17 +108,17 @@ describe('decode', function () {
 
   it('reads the color type flag', function () {
     var buffer = fs.readFileSync(path.resolve(__dirname, 'one-color.ase'));
-    var result = decode(buffer);
+    var result = read(buffer);
     assert(result.length === 1);
     assert(result[0].color.type === 'normal');
 
     buffer = fs.readFileSync(path.resolve(__dirname, 'spot-color.ase'));
-    result = decode(buffer);
+    result = read(buffer);
     assert(result.length === 1);
     assert(result[0].color.type === 'spot');
 
     buffer = fs.readFileSync(path.resolve(__dirname, 'global-color.ase'));
-    result = decode(buffer);
+    result = read(buffer);
     assert(result.length === 1);
     assert(result[0].color.type === 'global');
   });
