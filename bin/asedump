@@ -3,27 +3,37 @@
 var fs = require('fs');
 var aseUtil = require('../lib');
 var read = aseUtil.read;
-var mapColors = aseUtil.mapColors;
-var colorToHex = aseUtil.colorToHex;
+var formatAsLess = aseUtil.formatAsLess;
 
 var argv = require('yargs')
-  .usage('Dumps the colors and groups of an .ase file as JSON.\n\nUsage: $0 [--pretty] [--hex] filename.ase')
+  .usage('Dumps the colors and groups of an .ase file as JSON.\n\nUsage: $0 [options] filename.ase')
   .demand(1)
-  .option({
+  .options({
     pretty: {
       default: false,
       describe: 'Pretty print the output',
       type: 'boolean'
     },
-    hex: {
-      default: false,
-      describe: 'Adds HTML hex color values to RGB and Gray colors',
-      type: 'boolean'
+    f: {
+      alias: 'format',
+      default: 'json',
+      describe: 'Output format (json, less)',
+      type: 'string'
     }
-  }).argv;
+  })
+  .check(function (argv) {
+    var fmt = argv.format.toLowerCase();
+    if (fmt !== 'json' && fmt !== 'less') {
+      throw new Error('Unsupported output format "' + fmt + '". Supported output formats: json, less');
+    }
+    return true;
+  })
+  .argv;
 
 var result = read(fs.readFileSync(argv._[0]));
-if (argv.hex) {
-  result = result.map(colorToHex);
+var fmt = argv.format.toLowerCase();
+if (fmt === 'json') {
+  console.log(JSON.stringify(result, null, argv.pretty ? '  ' : null));
+} else if (fmt === 'less') {
+  console.log(formatAsLess(result));
 }
-console.log(JSON.stringify(result, null, argv.pretty ? '  ' : null));

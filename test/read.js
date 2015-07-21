@@ -5,6 +5,10 @@ var path = require('path');
 
 describe('read', function () {
 
+  function file(fileName) {
+    return fs.readFileSync(path.resolve(__dirname, 'files/', fileName));
+  }
+
   it('receives a Buffer', function () {
     assert.throws(
       function () {
@@ -16,8 +20,7 @@ describe('read', function () {
   });
 
   it('reads a file with only one color', function () {
-    var buffer = fs.readFileSync(path.resolve(__dirname, 'one-color.ase'));
-    var result = read(buffer);
+    var result = read(file('one-color.ase'));
     assert(result.length === 1);
     assert(result[0].type === 'color');
     assert(result[0].name === 'Red');
@@ -28,8 +31,7 @@ describe('read', function () {
   });
 
   it('reads a file with multiple colors', function () {
-    var buffer = fs.readFileSync(path.resolve(__dirname, 'three-colors.ase'));
-    var result = read(buffer);
+    var result = read(file('three-colors.ase'));
     assert(result.length === 3);
 
     assert(result[0].type === 'color');
@@ -55,11 +57,8 @@ describe('read', function () {
   });
 
   it('reads a file with a group', function () {
-    var buffer = fs.readFileSync(path.resolve(__dirname, 'one-group.ase'));
-    var result = read(buffer);
-
+    var result = read(file('one-group.ase'));
     assert(result.length === 1);
-
     assert(result[0].type === 'group');
     assert(result[0].name === 'A Group');
     assert(result[0].entries.length === 1);
@@ -72,8 +71,7 @@ describe('read', function () {
   });
 
   it('supports CMYK colors', function () {
-    var buffer = fs.readFileSync(path.resolve(__dirname, 'cmyk-color.ase'));
-    var result = read(buffer);
+    var result = read(file('cmyk-color.ase'));
     assert(result.length === 1);
     assert(result[0].type === 'color');
     assert(result[0].name === 'Cyan');
@@ -85,8 +83,7 @@ describe('read', function () {
   });
 
   it('supports Lab colors', function () {
-    var buffer = fs.readFileSync(path.resolve(__dirname, 'lab-color.ase'));
-    var result = read(buffer);
+    var result = read(file('lab-color.ase'));
     assert(result.length === 1);
     assert(result[0].type === 'color');
     assert(result[0].name === 'Test');
@@ -97,8 +94,7 @@ describe('read', function () {
   });
 
   it('supports Gray colors', function () {
-    var buffer = fs.readFileSync(path.resolve(__dirname, 'gray-color.ase'));
-    var result = read(buffer);
+    var result = read(file('gray-color.ase'));
     assert(result.length === 1);
     assert(result[0].type === 'color');
     assert(result[0].name === 'Gray');
@@ -107,20 +103,28 @@ describe('read', function () {
   });
 
   it('reads the color type flag', function () {
-    var buffer = fs.readFileSync(path.resolve(__dirname, 'one-color.ase'));
-    var result = read(buffer);
+    var result = read(file('one-color.ase'));
     assert(result.length === 1);
     assert(result[0].color.type === 'normal');
 
-    buffer = fs.readFileSync(path.resolve(__dirname, 'spot-color.ase'));
-    result = read(buffer);
+    result = read(file('spot-color.ase'));
     assert(result.length === 1);
     assert(result[0].color.type === 'spot');
 
-    buffer = fs.readFileSync(path.resolve(__dirname, 'global-color.ase'));
-    result = read(buffer);
+    result = read(file('global-color.ase'));
     assert(result.length === 1);
     assert(result[0].color.type === 'global');
+  });
+
+  it('adds the hex value for RGB and Gray colors', function () {
+    var result = read(file('hex-test.ase'));
+    result.forEach(function (item) {
+      if (item.color.model === 'RGB' || item.color.model === 'Gray') {
+        assert.equal(item.color.hex, item.name);
+      } else {
+        assert(!item.color.hex);
+      }
+    });
   });
 
 });

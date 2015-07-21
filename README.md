@@ -15,13 +15,13 @@ Command line tools
 
 ### asedump
 
-Dumps the colors and groups of an .ase file as JSON.
+Dumps the colors and groups of an .ase file as JSON or LESS format.
 
-Usage: `asedump [--pretty] [--hex] filename.ase`
+Usage: `asedump [options] filename.ase`
 
 Options:
   * `--pretty` Pretty print the output
-  * `--hex` Adds HTML hex color values to RGB and Gray colors
+  * `--format` Output format (json, less)
 
 
 API
@@ -44,7 +44,8 @@ Reads a buffer with the ASE binary format; outputs an array with color or color 
 
 There are four kinds of colors: RGB, CMYK, Lab, and Gray.
 
-Color components are stored using float values, for instance in RGB component values goes from 0 to 1 (instead of 0 to 255; for some reason values are stored in that way in the ASE format).
+Color components in ASE files are stored using float values, for instance in RGB component values goes from 0 to 1
+(instead of 0 to 255). For RGB and Gray colors, an convenient `hex` field with the HTML hex color format is included.
 
 Each color value has a `type` field with the Spot/Process (Normal)/Process Global distinction made by Illustrator
 and InDesign (see  https://helpx.adobe.com/illustrator/using/color.html).
@@ -54,7 +55,7 @@ RGB color example:
 {
   type: 'color',
   name: 'Color Name',
-  color: {model: 'RGB', r: 1, g: 0, b: 0, type: 'normal'}
+  color: {model: 'RGB', r: 1, g: 0, b: 0, hex: 'FF0000', type: 'normal'}
 }
 ```
 
@@ -81,7 +82,7 @@ Gray color example:
 {
   type: 'color',
   name: 'Color Name',
-  color: {model: 'Gray', gray: 0.5, type: 'normal'}
+  color: {model: 'Gray', gray: 0, hex: '000000', type: 'normal'}
 }
 ```
 
@@ -96,3 +97,7 @@ Groups are named lists of colors:
   entries: [] // Array of Colors
 }
 ```
+
+### ase.formatAsLess(input)
+
+Takes the output of the `read` function, and returns a string with LESS variable declarations for the colors.
