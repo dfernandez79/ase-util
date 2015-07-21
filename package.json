@@ -1,6 +1,6 @@
 {
   "name": "ase-util",
-  "version": "0.0.2",
+  "version": "0.0.3",
   "description": "Utility library to handle Adobe Swatch Exchange (ASE) files",
   "main": "lib/index.js",
   "bin": {
