@@ -4,6 +4,7 @@ var fs = require('fs');
 var aseUtil = require('../lib');
 var read = aseUtil.read;
 var formatAsLess = aseUtil.formatAsLess;
+var formatAsColorsObject = aseUtil.formatAsColorsObject;
 
 var argv = require('yargs')
   .usage('Dumps the colors and groups of an .ase file as JSON.\n\nUsage: $0 [options] filename.ase')
@@ -17,14 +18,14 @@ var argv = require('yargs')
     f: {
       alias: 'format',
       default: 'json',
-      describe: 'Output format (json, less)',
+      describe: 'Output format: json, json-colors, less',
       type: 'string'
     }
   })
   .check(function (argv) {
     var fmt = argv.format.toLowerCase();
-    if (fmt !== 'json' && fmt !== 'less') {
-      throw new Error('Unsupported output format "' + fmt + '". Supported output formats: json, less');
+    if (fmt !== 'json' && fmt !== 'less' && fmt != 'json-colors') {
+      throw new Error('Unsupported output format "' + fmt + '". Supported output formats: json, json-colors, less');
     }
     return true;
   })
@@ -36,4 +37,6 @@ if (fmt === 'json') {
   console.log(JSON.stringify(result, null, argv.pretty ? '  ' : null));
 } else if (fmt === 'less') {
   console.log(formatAsLess(result));
+} else if (fmt === 'json-colors') {
+  console.log(JSON.stringify(formatAsColorsObject(result), null, argv.pretty ? '  ' : null));
 }

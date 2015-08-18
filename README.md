@@ -21,7 +21,8 @@ Usage: `asedump [options] filename.ase`
 
 Options:
   * `--pretty` Pretty print the output
-  * `--format` Output format (json, less)
+  * `--format` / `-f` Output format: json, json-colors, less
+
 
 
 API
