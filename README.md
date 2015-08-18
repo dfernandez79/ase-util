@@ -100,4 +100,16 @@ Groups are named lists of colors:
 
 ### ase.formatAsLess(input)
 
-Takes the output of the `read` function, and returns a string with LESS variable declarations for the colors.
+Takes the output of `read` and returns a string with LESS variable declarations for the colors.
+
+Only colors with hex values are taken into account (CMYK/LAB colors are ignored). Also color names will be normalized using [Lodash's kebabCase](https://lodash.com/docs#kebabCase).
+
+
+### ase.formatAsColorsObject(input)
+
+Takes the output of `read` and returns a object with color names and color hex values.
+
+The returned object is useful for contexts where you need only the color/value pairs, i.e. reading the ASE file to
+use it with [PostCSS](https://github.com/postcss/postcss).
+
+Only colors with hex values are taken into account (CMYK/LAB colors are ignored). Also color names will be normalized using [Lodash's kebabCase](https://lodash.com/docs#kebabCase).

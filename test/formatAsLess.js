@@ -25,4 +25,14 @@ describe('formatAsLess', function () {
     assert.equal(result, '');
   });
 
+  it('ignores CMYK colors', function () {
+    var result = formatAsLess(read(file('cmyk-color.ase')));
+    assert.deepEqual(result, '');
+  });
+
+  it('ignores LAB colors', function () {
+    var result = formatAsLess(read(file('lab-color.ase')));
+    assert.deepEqual(result, '');
+  });
+
 });
