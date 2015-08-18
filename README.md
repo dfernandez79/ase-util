@@ -22,7 +22,9 @@ Usage: `asedump [options] filename.ase`
 Options:
   * `--pretty` Pretty print the output
   * `--format` / `-f` Output format: json, json-colors, less
-
+    * **json**: output of `ase.read` as JSON (includes everything in the ASE file).
+    * **json-colors**: a JSON that contains only color names and hex color values (groups are flattened, CMYK and LAB colors ignored).
+    * **less**: like **json-colors** but the output is formatted using [LESS](http://lesscss.org/) syntax.
 
 
 API
