@@ -20,6 +20,11 @@ var argv = require('yargs')
       default: 'json',
       describe: 'Output format: json, json-colors, less',
       type: 'string'
+    },
+    export: {
+      default: false,
+      describe: 'When using JSON output it adds the CommonJS module.exports',
+      type: 'boolean'
     }
   })
   .check(function (argv) {
@@ -33,10 +38,17 @@ var argv = require('yargs')
 
 var result = read(fs.readFileSync(argv._[0]));
 var fmt = argv.format.toLowerCase();
+
 if (fmt === 'json') {
-  console.log(JSON.stringify(result, null, argv.pretty ? '  ' : null));
+  jsonOutput(result, argv.pretty, argv.export);
 } else if (fmt === 'less') {
-  console.log(formatAsLess(result));
+  process.stdout.write(formatAsLess(result));
 } else if (fmt === 'json-colors') {
-  console.log(JSON.stringify(formatAsColorsObject(result), null, argv.pretty ? '  ' : null));
+  jsonOutput(formatAsColorsObject(result), argv.pretty, argv.export);
+}
+
+function jsonOutput(obj, pretty, exports) {
+  if (exports) process.stdout.write('module.exports = ');
+  process.stdout.write(JSON.stringify(obj, null, pretty ? '  ' : null));
+  if (exports) process.stdout.write(';');
 }
