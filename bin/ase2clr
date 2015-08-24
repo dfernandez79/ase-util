@@ -1,0 +1,5 @@
+#!/usr/bin/env node
+
+var fs = require('fs');
+var aseUtil = require('../lib');
+var read = aseUtil.read;
