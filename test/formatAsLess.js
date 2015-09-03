@@ -1,3 +1,5 @@
+'use strict';
+
 var formatAsLess = require('../lib').formatAsLess;
 var read = require('../lib').read;
 var assert = require('assert');

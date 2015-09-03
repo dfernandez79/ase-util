@@ -1,3 +1,5 @@
+'use strict';
+
 var exportToOSXColorList = require('../lib').exportToOSXColorList;
 var read = require('../lib').read;
 var assert = require('assert');
@@ -18,10 +20,10 @@ describe('exportToOSXColorList', function () {
     var result = new Buffer([]);
     child.stdin.write("ObjC.import('Cocoa');\n");
     child.stdin.write("var list = $.NSColorList.alloc.initWithNameFromFile('', './test/test-out.clr');\n");
-    child.stdin.write("JSON.stringify(ObjC.deepUnwrap(list.allKeys).map(function (e) {\n");
-    child.stdin.write("  var color = list.colorWithKey(e);\n");
-    child.stdin.write("  return {name: e, r: color.redComponent, g: color.greenComponent, b: color.blueComponent};\n");
-    child.stdin.write("}))\n");
+    child.stdin.write('JSON.stringify(ObjC.deepUnwrap(list.allKeys).map(function (e) {\n');
+    child.stdin.write('  var color = list.colorWithKey(e);\n');
+    child.stdin.write('  return {name: e, r: color.redComponent, g: color.greenComponent, b: color.blueComponent};\n');
+    child.stdin.write('}))\n');
     child.stdin.end();
     child.stdout.on('data', function (buff) {
       result = Buffer.concat([result, buff]);
@@ -44,18 +46,55 @@ describe('exportToOSXColorList', function () {
           assert(!err);
           clrDump(testCLR, function (out) {
             assert.equal(out.length, 1);
-            assert.deepEqual(out[0], {name:'Red', r:1, g:0, b:0});
+            assert.deepEqual(out[0], {name: 'Red', r: 1, g: 0, b: 0});
             done();
           });
         });
   });
 
-  onOSXIt('ignores group names');
+  onOSXIt('ignores group names', function (done) {
+    exportToOSXColorList(
+        read(file('one-group.ase')),
+        testCLR,
+        'Test',
+        function (err) {
+          assert(!err);
+          clrDump(testCLR, function (out) {
+            assert.equal(out.length, 1);
+            assert.deepEqual(out[0], {name: 'Red', r: 1, g: 0, b: 0});
+            done();
+          });
+        });
+  });
 
-  onOSXIt('ignores unknown entries');
+  onOSXIt('ignores unknown entries', function (done) {
+    exportToOSXColorList(
+        [{something: true}],
+        testCLR,
+        'Test',
+        function (err) {
+          assert(!err);
+          clrDump(testCLR, function (out) {
+            assert.equal(out.length, 0);
+            done();
+          });
+        });
+  });
 
   onOSXIt('supports CMYK colors');
 
-  onOSXIt('ignores LAB colors');
+  onOSXIt('ignores LAB colors', function (done) {
+    exportToOSXColorList(
+        read(file('lab-color.ase')),
+        testCLR,
+        'Test',
+        function (err) {
+          assert(!err);
+          clrDump(testCLR, function (out) {
+            assert.equal(out.length, 0);
+            done();
+          });
+        });
+  });
 
 });

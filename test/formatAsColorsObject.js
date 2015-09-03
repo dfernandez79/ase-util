@@ -1,3 +1,5 @@
+'use strict';
+
 var formatAsColorsObject = require('../lib').formatAsColorsObject;
 var read = require('../lib').read;
 var assert = require('assert');
@@ -33,6 +35,11 @@ describe('formatAsColorsObject', function () {
   it('ignores LAB colors', function () {
     var result = formatAsColorsObject(read(file('lab-color.ase')));
     assert.deepEqual(result, {});
+  });
+
+  it('can use another format function', function () {
+    var result = formatAsColorsObject(read(file('one-color.ase')), function (s) { return s.toUpperCase(); });
+    assert.deepEqual(result, {RED: '#FF0000'});
   });
 
 });

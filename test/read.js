@@ -1,3 +1,5 @@
+'use strict';
+
 var read = require('../lib').read;
 var assert = require('assert');
 var fs = require('fs');

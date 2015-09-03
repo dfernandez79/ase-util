@@ -1,3 +1,5 @@
+'use strict';
+
 var assert = require('assert');
 var exec = require('child_process').exec;
 var path = require('path');
@@ -7,11 +9,11 @@ function asedump(argsStr, callback) {
 }
 
 function assertStdOut(str, done) {
-  return function (err, stdout, stderr) {
+  return function (err, stdout) {
     assert(!err);
     assert.equal(stdout.toString(), str);
     done();
-  }
+  };
 }
 
 describe('asedump', function () {

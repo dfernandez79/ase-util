@@ -3,3 +3,4 @@
 var fs = require('fs');
 var aseUtil = require('../lib');
 var read = aseUtil.read;
+var exportToOSXColorList = aseUtil.exportToOSXColorList;

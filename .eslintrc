@@ -1,0 +1,11 @@
+{
+  "root": true,
+  "env": {
+    "node": true
+  },
+  "rules": {
+    "quotes": [2, "single", "avoid-escape"],
+    "curly": [2, "multi-line"],
+    "no-use-before-define": [1, "nofunc"]
+  }
+}
