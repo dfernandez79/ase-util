@@ -27,6 +27,15 @@ Options:
     * **less**: like **json-colors** but the output is formatted using [LESS](http://lesscss.org/) syntax.
   * `--export` When using JSON output it adds the CommonJS `module.exports`
 
+### ase2clr
+
+Converts an `.ase` file to `.clr` OSX color list.
+
+**OSX Only:** To do the conversion the tool uses OSX scripting to get a `NSColorList` instance, in other words it'll
+not work on other platforms.
+
+Usage: `ase2clr input.ase output.clr`
+
 
 API
 ---
@@ -102,18 +111,22 @@ Groups are named lists of colors:
 }
 ```
 
-### ase.formatAsLess(input)
+### ase.formatAsLess(input, [nameEntryFormatFunction])
 
 Takes the output of `read` and returns a string with LESS variable declarations for the colors.
 
-Only colors with hex values are taken into account (CMYK/LAB colors are ignored). Also color names will be normalized using [Lodash's kebabCase](https://lodash.com/docs#kebabCase).
+Only colors with hex values are taken into account (CMYK/LAB colors are ignored).
+
+Color names are formatted using `nameEntryFormatFunction`, if omitted [Lodash's kebabCase](https://lodash.com/docs#kebabCase) will be used.
 
 
-### ase.formatAsColorsObject(input)
+### ase.formatAsColorsObject(input, [nameEntryFormatFunction])
 
 Takes the output of `read` and returns a object with color names and color hex values.
 
 The returned object is useful for contexts where you need only the color/value pairs, i.e. reading the ASE file to
 use it with [PostCSS](https://github.com/postcss/postcss).
 
-Only colors with hex values are taken into account (CMYK/LAB colors are ignored). Also color names will be normalized using [Lodash's kebabCase](https://lodash.com/docs#kebabCase).
+Only colors with hex values are taken into account (CMYK/LAB colors are ignored).
+
+Color names are formatted using `nameEntryFormatFunction`, if omitted [Lodash's kebabCase](https://lodash.com/docs#kebabCase) will be used.

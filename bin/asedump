@@ -3,6 +3,7 @@
 
 var fs = require('fs');
 var aseUtil = require('../lib');
+var _ = require('lodash');
 var read = aseUtil.read;
 var formatAsLess = aseUtil.formatAsLess;
 var formatAsColorsObject = aseUtil.formatAsColorsObject;
@@ -26,6 +27,12 @@ var argv = require('yargs')
       default: false,
       describe: 'When using JSON output it adds the CommonJS module.exports',
       type: 'boolean'
+    },
+    cc: {
+      alias: 'camelCase',
+      default: false,
+      describe: 'Uses camelCase names on json-colors or less formats',
+      type: 'boolean'
     }
   })
   .check(function (args) {
@@ -39,6 +46,7 @@ var argv = require('yargs')
 
 var result = read(fs.readFileSync(argv._[0]));
 var fmt = argv.format.toLowerCase();
+var nameFormat = (argv.camelCase) ? _.camelCase : _.kebabCase;
 
 function jsonOutput(obj, pretty, exports) {
   if (exports) process.stdout.write('module.exports = ');
@@ -49,7 +57,7 @@ function jsonOutput(obj, pretty, exports) {
 if (fmt === 'json') {
   jsonOutput(result, argv.pretty, argv.export);
 } else if (fmt === 'less') {
-  process.stdout.write(formatAsLess(result));
+  process.stdout.write(formatAsLess(result, nameFormat));
 } else if (fmt === 'json-colors') {
-  jsonOutput(formatAsColorsObject(result), argv.pretty, argv.export);
+  jsonOutput(formatAsColorsObject(result, nameFormat), argv.pretty, argv.export);
 }

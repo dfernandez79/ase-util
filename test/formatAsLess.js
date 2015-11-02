@@ -37,4 +37,9 @@ describe('formatAsLess', function () {
     assert.deepEqual(result, '');
   });
 
+  it('can use another format function', function () {
+    var result = formatAsLess(read(file('one-color.ase')), function (s) { return s.toUpperCase(); });
+    assert.equal(result, '@RED: #FF0000;');
+  });
+
 });

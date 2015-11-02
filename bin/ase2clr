@@ -1,6 +1,19 @@
 #!/usr/bin/env node
 
 var fs = require('fs');
+var path = require('path');
 var aseUtil = require('../lib');
 var read = aseUtil.read;
 var exportToOSXColorList = aseUtil.exportToOSXColorList;
+
+var argv = require('yargs')
+  .usage('Converts an .ase file to .clr OSX color list.\n\nUsage: $0 input.ase output.clr')
+  .demand(2)
+  .argv;
+
+exportToOSXColorList(read(fs.readFileSync(argv._[0])), argv._[1], path.basename(argv._[1], '.clr'), function (err) {
+  if (err) {
+    console.error(err);
+    process.exit(1);
+  }
+});

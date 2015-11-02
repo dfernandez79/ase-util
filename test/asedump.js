@@ -66,4 +66,11 @@ describe('asedump', function () {
     );
   });
 
+  it('can format names using camelCase', function (done) {
+    asedump(
+      '--camelCase ../test/files/names.ase --format json-colors',
+      assertStdOut('{"someNameWithSpaces":"#6743B5"}', done)
+    );
+  });
+
 });

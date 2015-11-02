@@ -83,6 +83,8 @@ describe('exportToOSXColorList', function () {
 
   onOSXIt('supports CMYK colors');
 
+  onOSXIt('can assign a name to the list');
+
   onOSXIt('ignores LAB colors', function (done) {
     exportToOSXColorList(
         read(file('lab-color.ase')),
