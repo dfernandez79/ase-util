@@ -1,10 +1,11 @@
 {
   "name": "ase-util",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Utility library to handle Adobe Swatch Exchange (ASE) files",
   "main": "lib/index.js",
   "bin": {
-    "asedump": "./bin/asedump"
+    "asedump": "./bin/asedump",
+    "ase2clr": "./bin/ase2clr"
   },
   "devDependencies": {
     "eslint": "^1.3.1",
