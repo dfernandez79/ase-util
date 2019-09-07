@@ -8,9 +8,9 @@
     "ase2clr": "./bin/ase2clr"
   },
   "devDependencies": {
-    "eslint": "^6.0.1",
+    "eslint": "^6.3.0",
     "istanbul": "^0.4.5",
-    "mocha": "^6.1.4"
+    "mocha": "^6.2.0"
   },
   "scripts": {
     "lint": "eslint bin/* test/**.js lib/**.js",
@@ -27,8 +27,8 @@
   "license": "MIT",
   "dependencies": {
     "iconv-lite": "^0.5.0",
-    "lodash": "^4.17.14",
-    "yargs": "^13.2.4"
+    "lodash": "^4.17.15",
+    "yargs": "^14.0.0"
   },
   "repository": {
     "type": "git",
